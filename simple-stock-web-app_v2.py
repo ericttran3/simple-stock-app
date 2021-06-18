@@ -55,7 +55,7 @@ def main():
     ''')
 
     # Sidebar
-    st.sidebar.image('../assets/stock-market-xsmall.png')
+    st.sidebar.image('./assets/stock-market-xsmall.png')
     st.sidebar.markdown('''
     ## Navigation
     - Select start and end dates for historical data
