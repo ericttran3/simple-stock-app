@@ -1,14 +1,8 @@
-from urllib.parse import uses_fragment
-from altair.vegalite.v4.schema.channels import Opacity, Tooltip
-from altair.vegalite.v4.schema.core import Interpolate
 import pandas as pd
-import matplotlib.pyplot as plt
 import plotly.graph_objs as go
 import altair as alt
 import streamlit as st
 import yfinance as yf
-from yfinance import ticker
-import cufflinks as cf
 import datetime
 import time
 from dateutil.relativedelta import relativedelta # to add days or years
