@@ -1,3 +1,4 @@
+from altair.vegalite.v4.schema.channels import Tooltip
 import pandas as pd
 import plotly.graph_objs as go
 import altair as alt
@@ -508,6 +509,7 @@ def get_ticker_data(symbol, start_date, end_date):
     tickerDf = tickerData.history(period='1d', start=start_date, end=end_date) # get the historical prices for this ticker
     tickerDf['Date'] = tickerDf.index
     tickerDf['Year'] = pd.DatetimeIndex(tickerDf.index).year
+    tickerDf['Ticker'] = tickerData.info['symbol']
 
     get_visualizations(tickerDf)
 
@@ -524,7 +526,8 @@ def get_visualizations(tickerDf):
         line = alt.Chart(tickerDf).mark_line(interpolate='basis').encode(
             x=alt.X("Date", axis=alt.Axis(title='')),
             y=alt.X('Close', axis=alt.Axis(title='')),
-            color=alt.Color('Year')
+            color=alt.Color('Year'),
+            tooltip=['Ticker', 'Date', 'Close']
         )
 
         selectors = alt.Chart(tickerDf).mark_point().encode(
@@ -565,7 +568,8 @@ def get_visualizations(tickerDf):
         bar = alt.Chart(tickerDf).mark_bar(interpolate='basis').encode(
             x=alt.X("Date", axis=alt.Axis(title='')),
             y=alt.X('Volume', axis=alt.Axis(format='#', title='')),
-            color=alt.Color('Year')
+            color=alt.Color('Year'),
+            tooltip=['Ticker', 'Date', 'Year', 'Volume']
         )
 
         selectors = alt.Chart(tickerDf).mark_point().encode(
@@ -607,7 +611,7 @@ def get_visualizations(tickerDf):
                 x=alt.X("Volume", axis=alt.Axis(title='')),
                 y=alt.X('Close', axis=alt.Axis(title='')),
                 color='Year',
-                tooltip=['Volume', 'Close', 'Year', 'Date']
+                tooltip=['Ticker', 'Date', 'Year', 'Volume', 'Close']
         ), use_container_width=True)
 
 
@@ -619,7 +623,7 @@ def get_visualizations(tickerDf):
         base = alt.Chart(tickerDf).encode(
         alt.X('Date', axis=alt.Axis(labelAngle=0, title='')),
         color=alt.condition("datum.Open <= datum.Close",alt.value("#06982d"), alt.value("#ae1325")),
-        tooltip=['Date', 'Open', 'High', 'Low', 'Close']
+        tooltip=['Ticker', 'Date', 'Open', 'High', 'Low', 'Close']
         )
 
         chart = alt.layer(
